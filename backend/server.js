@@ -24,7 +24,14 @@ let counter = 0;  // The counter value
 
 // Create HTTP server and WebSocket server (socket.io)
 const server = http.createServer(app);
-const io = socketIo(server);  // Attach socket.io to the server
+const io = require('socket.io')(server, {
+  cors: {
+    origin: 'https://emi-mauve.vercel.app',  // Your frontend URL
+    methods: ['GET', 'POST'],
+    credentials: true,  // Allow credentials if necessary
+  }
+});
+  // Attach socket.io to the server
 
 // Route to get the current counter value
 app.get('/api/counter', (req, res) => {
