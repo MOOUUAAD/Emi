@@ -7,7 +7,7 @@ const PORT = 5000;
 
 app.use(cors(
   {
-    origins: ["https://deploy-emikhayr.vercel.app"],
+    origins: [""],
     methods: ["POST","GET"],
     credentials: true
   }
