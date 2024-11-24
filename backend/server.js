@@ -31,6 +31,12 @@ const io = require('socket.io')(server, {
     credentials: true,  // Allow credentials if necessary
   }
 });
+io.on('connection', (socket) => {
+  console.log('a user connected');
+  socket.on('disconnect', () => {
+    console.log('user disconnected');
+  });
+});
   // Attach socket.io to the server
 
 // Route to get the current counter value
