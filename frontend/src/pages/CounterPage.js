@@ -9,11 +9,10 @@ const socket = io('https://emikhayr.vercel.app');
 
 const CounterPage = () => {
   const [counter, setCounter] = useState(0);
-  const [prevCounter, setPrevCounter] = useState(0); // To compare previous and current counter
 
   // Create the spring animation for the counter number
   const props = useSpring({
-    from: { number: prevCounter },
+    from: { number: counter },
     to: { number: counter },
     config: { tension: 200, friction: 20 }, // Adjust the animation speed
   });
@@ -22,28 +21,20 @@ const CounterPage = () => {
   useEffect(() => {
     fetchCounter();
 
-    // Auto-refresh the counter every 5 seconds
-    const intervalId = setInterval(() => {
-      fetchCounter();
-    }, 1000); // Adjust this interval as needed (e.g., 5000ms = 5 seconds)
-
     // Listen for real-time updates to the counter
     socket.on('counterUpdate', (data) => {
-      setPrevCounter(counter); // Store the previous counter value
-      setCounter(data.counter); // Update the counter to the new value
+      setCounter(data.counter); // Update the counter when a new update is emitted from the server
     });
 
-    // Clean up on component unmount
+    // Clean up socket listener when the component unmounts
     return () => {
-      clearInterval(intervalId);  // Clear the interval on unmount
       socket.off('counterUpdate');
     };
-  }, [counter]);
+  }, []);
 
   const fetchCounter = async () => {
     try {
       const response = await axios.get('https://emikhayr.vercel.app/api/counter');
-      setPrevCounter(counter); // Store the previous counter value before updating
       setCounter(response.data.counter); // Set the new counter value
     } catch (error) {
       console.error('Error fetching counter:', error);
