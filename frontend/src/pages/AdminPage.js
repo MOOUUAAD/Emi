@@ -1,5 +1,4 @@
-// src/pages/AdminPage.js
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import io from 'socket.io-client';  // Import socket.io-client
@@ -13,7 +12,9 @@ const AdminPage = () => {
 
   const correctAdminKey = 'my_super_secure_key'; // Your secret admin key
 
-  // Fetch the counter value
+  const socket = io('https://emikhayr.vercel.app');  // Connect to the server using Socket.IO
+
+  // Fetch the counter value on component mount
   const fetchCounter = async () => {
     try {
       const response = await axios.get('https://emikhayr.vercel.app/api/counter');
@@ -22,6 +23,18 @@ const AdminPage = () => {
       console.error('Error fetching counter:', error);
     }
   };
+
+  // Socket listener for counter updates
+  useEffect(() => {
+    socket.on('counterUpdate', (data) => {
+      setCounter(data.counter);  // Update the counter when a new update is emitted from the server
+    });
+
+    // Clean up the socket connection when the component unmounts
+    return () => {
+      socket.off('counterUpdate');
+    };
+  }, []);
 
   // Handle admin authentication
   const handleAdminLogin = () => {
@@ -41,7 +54,6 @@ const AdminPage = () => {
       const response = await axios.post('https://emikhayr.vercel.app/api/counter/increment', {
         adminKey,
       });
-      setCounter(response.data.counter);
       setMessage('Counter incremented successfully!');
     } catch (error) {
       setMessage(error.response?.data?.message || 'Error incrementing counter');
@@ -54,7 +66,6 @@ const AdminPage = () => {
       const response = await axios.post('https://emikhayr.vercel.app/api/counter/decrement', {
         adminKey,
       });
-      setCounter(response.data.counter);
       setMessage('Counter decremented successfully!');
     } catch (error) {
       setMessage(error.response?.data?.message || 'Error decrementing counter');
