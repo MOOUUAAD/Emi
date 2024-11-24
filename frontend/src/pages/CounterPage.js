@@ -5,7 +5,7 @@ import io from 'socket.io-client';
 import { useSpring, animated } from 'react-spring';
 
 // Connect to WebSocket server (ensure correct URL)
-const socket = io('http://localhost:5000');
+const socket = io('https://emikhayr.vercel.app');
 
 const CounterPage = () => {
   const [counter, setCounter] = useState(0);
@@ -42,7 +42,7 @@ const CounterPage = () => {
 
   const fetchCounter = async () => {
     try {
-      const response = await axios.get('http://localhost:5000/api/counter');
+      const response = await axios.get('https://emikhayr.vercel.app/api/counter');
       setPrevCounter(counter); // Store the previous counter value before updating
       setCounter(response.data.counter); // Set the new counter value
     } catch (error) {
