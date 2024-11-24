@@ -5,7 +5,11 @@ import io from 'socket.io-client';
 import { useSpring, animated } from 'react-spring';
 
 // Connect to WebSocket server (ensure correct URL)
-const socket = io('https://emikhayr.vercel.app');
+const socket = io('https://emikhayr.vercel.app', {
+  transports: ['websocket', 'polling'],  // Ensuring the connection method is compatible
+  withCredentials: true,  // Ensure credentials are included if needed
+});
+
 
 const CounterPage = () => {
   const [counter, setCounter] = useState(0);
