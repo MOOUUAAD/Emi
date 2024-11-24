@@ -15,7 +15,7 @@ const AdminPage = () => {
   // Fetch the counter value
   const fetchCounter = async () => {
     try {
-      const response = await axios.get('http://localhost:5000/api/counter');
+      const response = await axios.get('https://emikhayr.vercel.app/api/counter');
       setCounter(response.data.counter);
     } catch (error) {
       console.error('Error fetching counter:', error);
@@ -37,7 +37,7 @@ const AdminPage = () => {
   // Increment counter
   const incrementCounter = async () => {
     try {
-      const response = await axios.post('http://localhost:5000/api/counter/increment', {
+      const response = await axios.post('https://emikhayr.vercel.app/api/counter/increment', {
         adminKey,
       });
       setCounter(response.data.counter);
@@ -50,7 +50,7 @@ const AdminPage = () => {
   // Decrement counter
   const decrementCounter = async () => {
     try {
-      const response = await axios.post('http://localhost:5000/api/counter/decrement', {
+      const response = await axios.post('https://emikhayr.vercel.app/api/counter/decrement', {
         adminKey,
       });
       setCounter(response.data.counter);
