@@ -7,7 +7,7 @@ const PORT = 5000;
 
 app.use(cors(
   {
-    origins: ["https://emi-mauve.vercel.app"],
+    origins: ["https://emi-mauve.vercel.app", "https://emikhayr.vercel.app"],
     methods: ["POST","GET"],
     credentials: true
   }
