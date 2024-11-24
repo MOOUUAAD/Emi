@@ -1,5 +1,11 @@
 const express = require('express');
 const cors = require('cors');
+app.use(cors({
+  origin: 'https://emi-mauve.vercel.app',  // Replace with your frontend URL
+  methods: ['GET', 'POST'],
+  credentials: true,  // If needed for credentials (like cookies)
+}));
+
 const http = require('http');
 const socketIo = require('socket.io');
 const app = express();
